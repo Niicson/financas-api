@@ -17,6 +17,7 @@ API REST para gerenciamento de finanças pessoais, desenvolvida com Java e Sprin
 - Listagem de todas as transações
 - Busca de transação por ID
 - Filtro de transações por tipo (RECEITA ou DESPESA)
+- Filtro de transações por período (data inicial e final)
 - Atualização de transações
 - Exclusão de transações
 
@@ -49,6 +50,7 @@ A API estará disponível em `http://localhost:8080`
 | GET | /transacoes | Lista todas as transações |
 | GET | /transacoes/{id} | Busca transação por ID |
 | GET | /transacoes/tipo/{tipo} | Filtra por tipo (RECEITA/DESPESA) |
+| GET | /transacoes/periodo?dataInicio=YYYY-MM-DD&dataFim=YYYY-MM-DD | Filtra transações por período |
 | POST | /transacoes | Cria nova transação |
 | PUT | /transacoes/{id} | Atualiza transação |
 | DELETE | /transacoes/{id} | Remove transação |

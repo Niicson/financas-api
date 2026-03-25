@@ -4,9 +4,12 @@ import com.nicson.financasapi.model.Transacao;
 import com.nicson.financasapi.service.TransacaoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -29,6 +32,20 @@ public class TransacaoController {
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity<List<Transacao>> listarPorTipo(@PathVariable String tipo) {
         return ResponseEntity.ok(service.listarPorTipo(tipo));
+    }
+
+    @GetMapping("/periodo")
+    public ResponseEntity<List<Transacao>> filtrarPorPeriodo(
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataInicio,
+
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataFim
+    ){
+        List<Transacao> resultado = service.filtrarPorPeriodo(dataInicio, dataFim);
+        return ResponseEntity.ok(resultado);
     }
 
     @PostMapping
