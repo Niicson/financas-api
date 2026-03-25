@@ -4,6 +4,8 @@ import com.nicson.financasapi.model.Transacao;
 import com.nicson.financasapi.repository.TransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +26,16 @@ public class TransacaoService {
 
     public List<Transacao> listarPorTipo(String tipo) {
         return repository.findByTipo(tipo.toUpperCase());
+    }
+
+    public List<Transacao> filtrarPorPeriodo(LocalDate dataInicio, LocalDate dataFim){
+        if (dataInicio.isAfter(dataFim)){
+            throw new IllegalArgumentException(
+                    "A data de início não pode ser posterior a data de fim"
+            );
+        }
+
+        return repository.findByDataBetween(dataInicio, dataFim);
     }
 
     public Transacao salvar(Transacao transacao) {
