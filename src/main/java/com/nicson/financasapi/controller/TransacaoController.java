@@ -1,5 +1,6 @@
 package com.nicson.financasapi.controller;
 
+import com.nicson.financasapi.enums.TipoTransacao;
 import com.nicson.financasapi.model.Transacao;
 import com.nicson.financasapi.service.TransacaoService;
 import jakarta.validation.Valid;
@@ -27,8 +28,13 @@ public class TransacaoController {
     }
 
     @GetMapping("/tipo/{tipo}")
-    public ResponseEntity<List<Transacao>> listarPorTipo(@PathVariable String tipo) {
+    public ResponseEntity<List<Transacao>> listarPorTipo(@PathVariable TipoTransacao tipo) {
         return ResponseEntity.ok(service.listarPorTipo(tipo));
+    }
+
+    @GetMapping("/categoria/{categoria}")
+    public ResponseEntity<List<Transacao>> listarPorCategoria(@PathVariable String categoria) {
+        return ResponseEntity.ok(service.listarPorCategoria(categoria));
     }
 
     @PostMapping
