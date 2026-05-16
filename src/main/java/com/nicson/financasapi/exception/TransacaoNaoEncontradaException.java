@@ -1,7 +1,9 @@
 package com.nicson.financasapi.exception;
 
-public class TransacaoNaoEncontradaException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class TransacaoNaoEncontradaException extends BusinessException {
     public TransacaoNaoEncontradaException(Long id) {
-        super("Transação com ID " + id + " não encontrada!");
+        super("Transação com ID " + id + " não encontrada!", HttpStatus.NOT_FOUND);
     }
 }
