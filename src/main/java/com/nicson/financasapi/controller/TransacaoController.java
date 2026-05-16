@@ -1,44 +1,51 @@
 package com.nicson.financasapi.controller;
 
-import com.nicson.financasapi.model.Transacao;
+import com.nicson.financasapi.dto.TransacaoDTO;
+import com.nicson.financasapi.dto.TransacaoResponseDTO;
 import com.nicson.financasapi.service.TransacaoService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
+/**
+ * Endpoints REST para gerenciamento de transações.
+ */
 @RestController
 @RequestMapping("/transacoes")
 public class TransacaoController {
 
-    @Autowired
-    private TransacaoService service;
+    private final TransacaoService service;
+
+    public TransacaoController(TransacaoService service) {
+        this.service = service;
+    }
 
     @GetMapping
-    public ResponseEntity<List<Transacao>> listarTodas() {
+    public ResponseEntity<List<TransacaoResponseDTO>> listarTodas() {
         return ResponseEntity.ok(service.listarTodas());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transacao> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<TransacaoResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @GetMapping("/tipo/{tipo}")
-    public ResponseEntity<List<Transacao>> listarPorTipo(@PathVariable String tipo) {
+    public ResponseEntity<List<TransacaoResponseDTO>> listarPorTipo(@PathVariable String tipo) {
         return ResponseEntity.ok(service.listarPorTipo(tipo));
     }
 
     @PostMapping
-    public ResponseEntity<Transacao> criar(@Valid @RequestBody Transacao transacao) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.salvar(transacao));
+    public ResponseEntity<TransacaoResponseDTO> criar(@Valid @RequestBody TransacaoDTO transacaoDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.salvar(transacaoDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Transacao> atualizar(@PathVariable Long id, @Valid @RequestBody Transacao transacao) {
-        return ResponseEntity.ok(service.atualizar(id, transacao));
+    public ResponseEntity<TransacaoResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody TransacaoDTO transacaoDTO) {
+        return ResponseEntity.ok(service.atualizar(id, transacaoDTO));
     }
 
     @DeleteMapping("/{id}")

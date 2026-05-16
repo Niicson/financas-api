@@ -1,21 +1,16 @@
-package com.nicson.financasapi.model;
+package com.nicson.financasapi.dto;
 
-import jakarta.persistence.*;
+import com.nicson.financasapi.enums.TipoTransacao;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
-import com.nicson.financasapi.enums.TipoTransacao;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-@Entity
-@Table(name = "transacoes")
-public class Transacao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class TransacaoDTO {
 
     @NotBlank(message = "Descrição é obrigatória")
     private String descricao;
@@ -27,9 +22,9 @@ public class Transacao {
     @NotNull(message = "Data é obrigatória")
     private LocalDate data;
 
-    @Enumerated(EnumType.STRING)
     @NotNull(message = "Tipo é obrigatório")
     private TipoTransacao tipo;
 
+    @NotBlank(message = "Categoria é obrigatória")
     private String categoria;
 }

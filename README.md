@@ -1,69 +1,77 @@
 # 💰 Finanças API
 
-API REST para gerenciamento de finanças pessoais, desenvolvida com Java e Spring Boot.
+API REST para gerenciamento de finanças pessoais com foco em SOLID e TDD.
 
-## 🚀 Tecnologias
-
+## 🚀 Stack
 - Java 17
 - Spring Boot 3.5.11
 - Spring Data JPA
+- Spring Validation
 - PostgreSQL
 - Maven
-- Lombok
 
-## 📋 Funcionalidades
+## ✅ Melhorias aplicadas
+- API desacoplada da entidade (`TransacaoDTO` e `TransacaoResponseDTO`)
+- `TransacaoMapper` para conversões entre camadas
+- tratamento de erro padronizado com `BusinessException` e `ErrorResponse`
+- constructor injection em controller e service
+- testes unitários (service/mapper) e integração web do controller
 
-- Cadastro de transações financeiras (receitas e despesas)
-- Listagem de todas as transações
-- Busca de transação por ID
-- Filtro de transações por tipo (RECEITA ou DESPESA)
-- Atualização de transações
-- Exclusão de transações
-
-## 🔧 Como executar
-
+## 🔧 Setup
 ### Pré-requisitos
 - Java 17+
 - PostgreSQL
 - Maven
 
-### Configuração do banco de dados
-Crie um banco de dados PostgreSQL chamado `financas_db` e configure as credenciais no arquivo `src/main/resources/application.properties`:
+### Configuração
+Atualize `src/main/resources/application.properties` com suas credenciais do banco:
 ```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/financas_db
 spring.datasource.username=postgres
 spring.datasource.password=sua_senha
 ```
 
-### Executando o projeto
+### Executar
 ```bash
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
-A API estará disponível em `http://localhost:8080`
+### Testes
+```bash
+mvn test
+```
 
 ## 📌 Endpoints
+| Método | Endpoint | Payload |
+|---|---|---|
+| GET | `/transacoes` | - |
+| GET | `/transacoes/{id}` | - |
+| GET | `/transacoes/tipo/{tipo}` | - |
+| POST | `/transacoes` | `TransacaoDTO` |
+| PUT | `/transacoes/{id}` | `TransacaoDTO` |
+| DELETE | `/transacoes/{id}` | - |
 
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | /transacoes | Lista todas as transações |
-| GET | /transacoes/{id} | Busca transação por ID |
-| GET | /transacoes/tipo/{tipo} | Filtra por tipo (RECEITA/DESPESA) |
-| POST | /transacoes | Cria nova transação |
-| PUT | /transacoes/{id} | Atualiza transação |
-| DELETE | /transacoes/{id} | Remove transação |
-
-## 📝 Exemplo de requisição
+### Exemplo de request (`TransacaoDTO`)
 ```json
 {
-    "descricao": "Salário",
-    "valor": 3500.00,
-    "data": "2026-03-21",
-    "tipo": "RECEITA",
-    "categoria": "Salário"
+  "descricao": "Salário",
+  "valor": 3500.00,
+  "data": "2026-03-21",
+  "tipo": "RECEITA",
+  "categoria": "Salário"
 }
 ```
 
-## 👨‍💻 Autor
-
-Nicson — [LinkedIn](https://www.linkedin.com/in/nicson-souza/) | [GitHub](https://github.com/Niicson)
+### Exemplo de erro (`ErrorResponse`)
+```json
+{
+  "timestamp": "2026-05-16T03:00:00Z",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "Erro de validação",
+  "path": "/transacoes",
+  "validationErrors": {
+    "descricao": "Descrição é obrigatória"
+  }
+}
+```
